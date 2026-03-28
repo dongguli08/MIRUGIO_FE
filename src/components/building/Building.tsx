@@ -3,8 +3,6 @@ import { useEffect } from 'react'
 import { useGameStore } from '../../store/useGameStore'
 import { supabase } from '../../lib/supabase'
 import Floor from './Floor'
-import ConstructionAnim from './ConstructionAnim'
-import type { Importance } from '../../types'
 
 export default function Building() {
   const { floors, isCollapsed, resetBuilding, pendingAnimation, clearPendingAnimation, userId } = useGameStore()
@@ -41,7 +39,6 @@ export default function Building() {
     <div className="flex flex-col items-center w-full">
       {/* 건물 */}
       <div className="w-full max-w-xs relative" ref={scope}>
-        <ConstructionAnim importance={pendingAnimation as Importance | null} />
         {floors.length === 0 ? (
           <div className="w-full flex flex-col items-center">
             {/* 공사 안내판 */}
@@ -82,7 +79,12 @@ export default function Building() {
           <div className="flex flex-col-reverse w-full">
             <AnimatePresence>
               {floors.map((floor, i) => (
-                <Floor key={floor.id} floor={floor} index={i} />
+                <Floor
+                  key={floor.id}
+                  floor={floor}
+                  index={i}
+                  isNew={pendingAnimation !== null && i === floors.length - 1}
+                />
               ))}
             </AnimatePresence>
           </div>
