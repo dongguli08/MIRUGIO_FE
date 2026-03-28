@@ -17,9 +17,9 @@ export default function Onboarding({ onDone }: Props) {
   const isLast = page === slides.length - 1
 
   return (
-    <div className="min-h-svh bg-white flex flex-col items-center justify-between px-6 py-16 max-w-sm mx-auto">
+    <div className="h-full w-full bg-white flex flex-col px-6 pt-16 pb-8 max-w-sm mx-auto">
       {/* 인디케이터 */}
-      <div className="flex gap-2">
+      <div className="flex justify-center gap-2 shrink-0">
         {slides.map((_, i) => (
           <div
             key={i}
@@ -33,29 +33,31 @@ export default function Onboarding({ onDone }: Props) {
       </div>
 
       {/* 슬라이드 */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={page}
-          initial={{ opacity: 0, x: 40 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -40 }}
-          transition={{ duration: 0.3 }}
-          className="flex flex-col items-center text-center"
-        >
-          <div className="text-8xl mb-8">{slides[page].emoji}</div>
-          <h2 className="font-bold text-2xl mb-4 leading-tight text-gray-800">{slides[page].title}</h2>
-          <p className="text-gray-400 text-sm leading-relaxed whitespace-pre-line">{slides[page].desc}</p>
-        </motion.div>
-      </AnimatePresence>
+      <div className="flex-1 flex items-center justify-center py-8">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={page}
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -40 }}
+            transition={{ duration: 0.3 }}
+            className="flex flex-col items-center text-center"
+          >
+            <div className="text-8xl mb-8">{slides[page].emoji}</div>
+            <h2 className="font-bold text-2xl mb-4 leading-tight text-gray-800">{slides[page].title}</h2>
+            <p className="text-gray-400 text-sm leading-relaxed whitespace-pre-line">{slides[page].desc}</p>
+          </motion.div>
+        </AnimatePresence>
+      </div>
 
       {/* 버튼 */}
-      <div className="w-full flex flex-col gap-3">
+      <div className="w-full flex flex-col gap-3 shrink-0">
         <button
           onClick={() => isLast ? onDone() : setPage((p) => p + 1)}
           className="w-full text-white font-bold py-4 rounded-2xl text-sm active:scale-95 transition-transform"
           style={{ background: 'var(--theme-text)' }}
         >
-          {isLast ? '시작하기 🚀' : '다음'}
+          {isLast ? '메인 화면으로 시작하기' : '다음'}
         </button>
         {!isLast && (
           <button onClick={onDone} className="text-sm py-2" style={{ color: 'var(--theme-point)' }}>
